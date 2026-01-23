@@ -8,12 +8,6 @@ namespace JN_WEB.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.MSJ = "BUENAS NOCHES";
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
