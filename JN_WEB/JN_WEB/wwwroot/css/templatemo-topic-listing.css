@@ -514,7 +514,7 @@ strong {
 .hero-section button[type="submit"] {
   background-color: var(--primary-color);
   border: 0;
-  border-radius: var(--border-radius-large) !important;
+  border-radius: 10px !important;
   color: var(--white-color);
   max-width: 150px;
 }
@@ -891,7 +891,7 @@ blockquote {
   CUSTOM FORM               
 -----------------------------------------*/
 .custom-form .form-control {
-  border-radius: var(--border-radius-large);
+  border-radius: 5px;
   color: var(--p-color);
   margin-bottom: 24px;
   padding-top: 13px;
@@ -907,7 +907,7 @@ blockquote {
 .custom-form button[type="submit"] {
   background: var(--custom-btn-bg-color);
   border: none;
-  border-radius: var(--border-radius-large);
+  border-radius: 10px;
   color: var(--white-color);
   font-family: var(--title-font-family);
   font-size: var(--p-font-size);
