@@ -7,14 +7,28 @@
 <div class="col-lg-4 col-12"></div>
 <div class="col-lg-4 col-12">
 
-    <h3 class="mb-4 pb-2 text-center">Inicio de Sesión</h3>
+    <h3 class="mb-4 pb-2 text-center">Crear Cuenta</h3>
 
-    <form asp-action="Login" asp-controller="Home" class="custom-form contact-form" role="form">
+    <form asp-action="Registro" asp-controller="Home" class="custom-form contact-form" role="form">
         <div class="row">
             <div class="col-lg-12 col-12">
                 <div class="form-floating">
                     <input type="text" asp-for="Identificacion" class="form-control" placeholder="Name" required="">
                     <label for="floatingInput">Identificación</label>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-12">
+                <div class="form-floating">
+                    <input type="text" asp-for="Nombre" class="form-control" placeholder="Name" required="">
+                    <label for="floatingInput">Nombre</label>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-12">
+                <div class="form-floating">
+                    <input type="text" asp-for="CorreoElectronico" class="form-control" placeholder="Name" required="">
+                    <label for="floatingInput">Correo Electrónico</label>
                 </div>
             </div>
 
@@ -31,16 +45,10 @@
 
 
             <div class="col-12 text-center mt-4">
-                <a asp-controller="Home" asp-action="Registro" class="text-white">
-                    ¿No tienes una cuenta aún? Regístrate
+                <a asp-controller="Home" asp-action="Login" class="text-white">
+                    ¿Ya tienes una cuenta? Inicia sesión
                 </a>
             </div>
-            <div class="col-12 text-center mt-2">
-                <a asp-controller="Home" asp-action="RecuperarAcceso" class="text-white">
-                    ¿Has olvidado tu contraseña?
-                </a>
-            </div>
-
 
         </div>
     </form>
