@@ -5,6 +5,12 @@ namespace JN_WEB.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IHttpClientFactory _http;
+        public HomeController(IHttpClientFactory http)
+        {
+            _http = http;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -32,15 +38,16 @@ namespace JN_WEB.Controllers
         [HttpGet]
         public IActionResult Registro()
         {
-            /* llamadas al API */
-
             return View();
         }
 
         [HttpPost]
         public IActionResult Registro(Usuario model)
         {
-            /* llamadas al API */
+            using (var client = _http.CreateClient())
+            {
+                var result = client.PostAsJsonAsync("https://localhost:7275/api/Home/RegistroUsuario", model).Result;
+            }
 
             return View();
         }

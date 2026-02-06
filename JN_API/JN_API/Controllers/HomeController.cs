@@ -3,14 +3,13 @@ using JN_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
-
 namespace JN_API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class HomeController : ControllerBase
     {
-        [HttpPost(Name = "RegistroUsuario")]
+        [HttpPost("RegistroUsuario")]
         public IActionResult RegistroUsuario(Usuario model)
         {
             using (var context = new SqlConnection("Server=localhost\\MSSQLSERVER01;Database=JN_DB;Integrated Security=True;TrustServerCertificate=True;"))
