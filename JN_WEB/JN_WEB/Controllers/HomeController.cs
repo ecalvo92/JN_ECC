@@ -32,12 +32,16 @@ namespace JN_WEB.Controllers
         [HttpGet]
         public IActionResult Registro()
         {
+            /* llamadas al API */
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Registro(Usuario model)
         {
+            /* llamadas al API */
+
             return View();
         }
 
