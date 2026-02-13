@@ -9,10 +9,16 @@ namespace JN_API.Controllers
     [Route("api/[controller]")]
     public class HomeController : ControllerBase
     {
+        private readonly IConfiguration _config;
+        public HomeController(IConfiguration config)
+        {
+            _config = config;
+        }
+
         [HttpPost("RegistroUsuario")]
         public IActionResult RegistroUsuario(Usuario model)
         {
-            using (var context = new SqlConnection("Server=localhost\\MSSQLSERVER01;Database=JN_DB;Integrated Security=True;TrustServerCertificate=True;"))
+            using (var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection")))
             {
                 var parametros = new DynamicParameters();
                 parametros.Add("@Identificacion", model.Identificacion);
@@ -20,10 +26,13 @@ namespace JN_API.Controllers
                 parametros.Add("@CorreoElectronico", model.CorreoElectronico);
                 parametros.Add("@Contrasenna", model.Contrasenna);
 
-                context.Execute("sp_RegistrarCuenta", parametros);
-            }
+                var result = context.Execute("sp_RegistrarCuenta", parametros);
 
-            return Ok();
+                if(result <= 0)
+                    return BadRequest("Su información no se registró correctamente");
+
+                return Ok("Su información se registró correctamente");                    
+            }
         }
     }
 }

@@ -1,14 +1,17 @@
 using JN_WEB.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace JN_WEB.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _http;
-        public HomeController(IHttpClientFactory http)
+        private readonly IConfiguration _config;
+        public HomeController(IHttpClientFactory http, IConfiguration config)
         {
             _http = http;
+            _config = config;
         }
 
         [HttpGet]
@@ -44,11 +47,16 @@ namespace JN_WEB.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario model)
         {
-            using (var client = _http.CreateClient())
+            using var client = _http.CreateClient();
+            var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/RegistroUsuario";
+            var result = client.PostAsJsonAsync(url, model).Result;
+
+            if (result.StatusCode == HttpStatusCode.OK)
             {
-                var result = client.PostAsJsonAsync("https://localhost:7275/api/Home/RegistroUsuario", model).Result;
+                return RedirectToAction("Login", "Home");
             }
 
+            ViewBag.Mensaje = result.Content.ReadFromJsonAsync<string>().Result;
             return View();
         }
 
