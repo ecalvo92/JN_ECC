@@ -18,21 +18,36 @@ namespace JN_API.Controllers
         [HttpPost("RegistroUsuario")]
         public IActionResult RegistroUsuario(Usuario model)
         {
-            using (var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection")))
-            {
-                var parametros = new DynamicParameters();
-                parametros.Add("@Identificacion", model.Identificacion);
-                parametros.Add("@Nombre", model.Nombre);
-                parametros.Add("@CorreoElectronico", model.CorreoElectronico);
-                parametros.Add("@Contrasenna", model.Contrasenna);
+            using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            var parametros = new DynamicParameters();
+            parametros.Add("@Identificacion", model.Identificacion);
+            parametros.Add("@Nombre", model.Nombre);
+            parametros.Add("@CorreoElectronico", model.CorreoElectronico);
+            parametros.Add("@Contrasenna", model.Contrasenna);
 
-                var result = context.Execute("sp_RegistrarCuenta", parametros);
+            var result = context.Execute("sp_RegistrarCuenta", parametros);
 
-                if(result <= 0)
-                    return BadRequest("Su información no se registró correctamente");
+            if (result <= 0)
+                return BadRequest("Su información no se registró correctamente");
 
-                return Ok("Su información se registró correctamente");                    
-            }
+            return Ok("Su información se registró correctamente");
         }
+
+        [HttpPost("IniciarSesion")]
+        public IActionResult IniciarSesion(Usuario model)
+        {
+            using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            var parametros = new DynamicParameters();
+            parametros.Add("@CorreoElectronico", model.CorreoElectronico);
+            parametros.Add("@Contrasenna", model.Contrasenna);
+
+            var result = context.QueryFirstOrDefault<Usuario>("sp_IniciarSesion", parametros);
+
+            if (result == null)
+                return NotFound("Su información no se autenticó correctamente");
+
+            return Ok("Su información se autenticó correctamente");
+        }
+
     }
 }
