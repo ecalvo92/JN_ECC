@@ -36,7 +36,10 @@ namespace JN_WEB.Controllers
             var result = client.PostAsJsonAsync(url, model).Result;
 
             if (result.StatusCode == HttpStatusCode.OK)
-            { 
+            {
+                var objeto = result.Content.ReadFromJsonAsync<Usuario>().Result;
+                HttpContext.Session.SetString("NombreUsuario", objeto!.Nombre);
+
                 return RedirectToAction("Index", "Home");
             }
             else if (result.StatusCode == HttpStatusCode.InternalServerError)

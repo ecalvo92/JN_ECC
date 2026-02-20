@@ -1,4 +1,19 @@
-﻿<!doctype html>
+﻿@{
+    var nombreUsuario = Context.Session.GetString("NombreUsuario") ?? string.Empty;
+    var hora = DateTime.Now.Hour;
+    var saludo = "BUENAS NOCHES";
+
+    if (hora < 12)
+    {
+        saludo = "BUENOS DÍAS";
+    }
+    else if (hora < 18)
+    {
+        saludo = "BUENAS TARDES";
+    }
+}
+
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -59,12 +74,15 @@
                                 <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
                             </ul>
                         </li>
+
                     </ul>
 
                     @* Resolución Grande *@
-                    <div class="d-none d-lg-block">
-                        <a asp-controller="Home" asp-action="Login" class="navbar-icon bi-person smoothscroll"></a>
+                    <div class="d-none d-lg-block text-white">
+                        @saludo @nombreUsuario
+                        <a asp-controller="Home" asp-action="Login" class="navbar-icon bi-person smoothscroll ms-3"></a>
                     </div>
+
                 </div>
             </div>
         </nav>

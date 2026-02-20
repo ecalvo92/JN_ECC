@@ -46,7 +46,7 @@ namespace JN_API.Controllers
             if (result == null)
                 return NotFound("Su información no se autenticó correctamente");
 
-            return Ok("Su información se autenticó correctamente");
+            return Ok(result);
         }
 
     }
