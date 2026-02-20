@@ -16,7 +16,7 @@ namespace JN_API.Controllers
         }
 
         [HttpPost("RegistroUsuario")]
-        public IActionResult RegistroUsuario(Usuario model)
+        public IActionResult RegistroUsuario(RegistrarUsuarioRequest model)
         {
             using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
             var parametros = new DynamicParameters();
@@ -34,14 +34,14 @@ namespace JN_API.Controllers
         }
 
         [HttpPost("IniciarSesion")]
-        public IActionResult IniciarSesion(Usuario model)
+        public IActionResult IniciarSesion(IniciarSesionRequest model)
         {
             using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
             var parametros = new DynamicParameters();
             parametros.Add("@CorreoElectronico", model.CorreoElectronico);
             parametros.Add("@Contrasenna", model.Contrasenna);
 
-            var result = context.QueryFirstOrDefault<Usuario>("sp_IniciarSesion", parametros);
+            var result = context.QueryFirstOrDefault<UsuarioResponse>("sp_IniciarSesion", parametros);
 
             if (result == null)
                 return NotFound("Su información no se autenticó correctamente");

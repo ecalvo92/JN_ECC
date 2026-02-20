@@ -1,6 +1,8 @@
-﻿namespace JN_API.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace JN_API.Models
 {
-    public class Usuario
+    public class UsuarioResponse
     {
         public string Identificacion { get; set; } = string.Empty;
         public string Nombre { get; set; } = string.Empty;

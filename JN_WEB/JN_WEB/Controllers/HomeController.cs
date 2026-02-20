@@ -31,13 +31,17 @@ namespace JN_WEB.Controllers
         [HttpPost]
         public IActionResult Login(Usuario model)
         {
-           using var client = _http.CreateClient();
+            using var client = _http.CreateClient();
             var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/IniciarSesion";
             var result = client.PostAsJsonAsync(url, model).Result;
 
             if (result.StatusCode == HttpStatusCode.OK)
-            {
+            { 
                 return RedirectToAction("Index", "Home");
+            }
+            else if (result.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                throw new Exception();
             }
 
             ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
@@ -64,6 +68,10 @@ namespace JN_WEB.Controllers
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 return RedirectToAction("Login", "Home");
+            }
+            else if (result.StatusCode == HttpStatusCode.InternalServerError)
+            {     
+                throw new Exception();
             }
 
             ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;

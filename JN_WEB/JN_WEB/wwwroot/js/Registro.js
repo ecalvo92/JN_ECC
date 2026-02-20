@@ -1,7 +1,13 @@
 ﻿$(function () {
 
-  $("#formLogin").validate({
+  $("#formRegistro").validate({
     rules: {
+      Identificacion: {
+        required: true
+      },
+      Nombre: {
+        required: true
+      },
       CorreoElectronico: {
         required: true,
         email: true
@@ -11,6 +17,12 @@
       }
     },
     messages: {
+      Identificacion: {
+        required: "Campo obligatorio",
+      },
+      Nombre: {
+        required: "Campo obligatorio",
+      },
       CorreoElectronico: {
         required: "Campo obligatorio",
         email: "Formato incorrecto"
