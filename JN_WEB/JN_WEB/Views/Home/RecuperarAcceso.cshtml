@@ -9,7 +9,14 @@
 
     <h3 class="mb-4 pb-2 text-center">Recuperar Acceso</h3>
 
-    <form asp-action="RecuperarAcceso" asp-controller="Home" class="custom-form contact-form" role="form">
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-danger text-center text-black">
+            @ViewBag.Mensaje
+        </div>
+    }
+
+    <form asp-action="RecuperarAcceso" asp-controller="Home" id="formRecuperarAcceso" class="custom-form contact-form" role="form">
         <div class="row">
 
             <div class="col-lg-12 col-12">
@@ -32,3 +39,5 @@
         </div>
     </form>
 </div>
+
+<script src="~/js/recuperarAcceso.js" asp-append-version="true"></script>
