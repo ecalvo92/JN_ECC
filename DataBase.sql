@@ -23,9 +23,7 @@ GO
 
 SET IDENTITY_INSERT [dbo].[tUsuarios] ON 
 GO
-INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado]) VALUES (1, N'304590415', N'EDUARDO JOSE CALVO CASTILLO', N'ecalvo90415@ufide.ac.cr', N'90415', 1)
-GO
-INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado]) VALUES (3, N'304590416', N'EDUARDO JOSE CALVO CASTILLO', N'ecalvo90416@ufide.ac.cr', N'90416', 1)
+INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado]) VALUES (1, N'207640592', N'MORALES RAMIREZ LUIS DANIEL', N'lmorales40592@ufide.ac.cr', N'sNT2+kOcfhKnj5sbd6P6MQ==', 1)
 GO
 SET IDENTITY_INSERT [dbo].[tUsuarios] OFF
 GO
@@ -40,6 +38,19 @@ ALTER TABLE [dbo].[tUsuarios] ADD  CONSTRAINT [UK_Identificacion] UNIQUE NONCLUS
 (
 	[Identificacion] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+
+CREATE PROCEDURE [dbo].[sp_ActualizarContrasenna]
+    @Consecutivo  int,
+    @Contrasenna  varchar(200)
+AS
+BEGIN
+
+    UPDATE  dbo.tUsuarios
+    SET     Contrasenna = @Contrasenna
+    WHERE   Consecutivo = @Consecutivo
+
+END
 GO
 
 CREATE PROCEDURE [dbo].[sp_IniciarSesion]
@@ -79,5 +90,22 @@ BEGIN
         VALUES (@Identificacion,@Nombre,@CorreoElectronico,@Contrasenna,1)
 
     END
+END
+GO
+
+CREATE PROCEDURE [dbo].[sp_ValidarCorreo]
+	@CorreoElectronico  varchar(100)
+AS
+BEGIN
+	
+    SELECT  Consecutivo,
+            Identificacion,
+            Nombre,
+            CorreoElectronico,
+            Estado
+    FROM    dbo.tUsuarios
+    WHERE   CorreoElectronico = @CorreoElectronico
+        AND Estado = 1
+
 END
 GO
