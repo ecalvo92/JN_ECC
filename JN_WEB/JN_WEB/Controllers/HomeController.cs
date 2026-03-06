@@ -1,4 +1,5 @@
 using JN_WEB.Models;
+using JN_WEB.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,10 +9,12 @@ namespace JN_WEB.Controllers
     {
         private readonly IHttpClientFactory _http;
         private readonly IConfiguration _config;
-        public HomeController(IHttpClientFactory http, IConfiguration config)
+        private readonly IPasswordHelper _password;
+        public HomeController(IHttpClientFactory http, IConfiguration config, IPasswordHelper password)
         {
             _http = http;
             _config = config;
+            _password = password;
         }
 
         [HttpGet]
@@ -31,6 +34,8 @@ namespace JN_WEB.Controllers
         [HttpPost]
         public IActionResult Login(Usuario model)
         {
+            model.Contrasenna = _password.Encrypt(model.Contrasenna);
+
             using var client = _http.CreateClient();
             var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/IniciarSesion";
             var result = client.PostAsJsonAsync(url, model).Result;
@@ -64,6 +69,8 @@ namespace JN_WEB.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario model)
         {
+            model.Contrasenna = _password.Encrypt(model.Contrasenna);
+
             using var client = _http.CreateClient();
             var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/RegistroUsuario";
             var result = client.PostAsJsonAsync(url, model).Result;

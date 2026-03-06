@@ -1,8 +1,12 @@
+using JN_WEB.Services;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddSession();
+builder.Services.AddScoped<IPasswordHelper, PasswordHelper>();
 
 var app = builder.Build();
 
