@@ -13,14 +13,14 @@
         email: "Formato incorrecto"
       }
     },
-    errorElement: "span",
-    errorClass: "text-white",
-    highlight: function (element) {
-      $(element).addClass("is-invalid");
-    },
-    unhighlight: function (element) {
-      $(element).removeClass("is-invalid");
-    }
+     errorClass: "text-white",
+      errorElement: "span",
+      highlight: function (element) {
+        $(element).addClass("is-invalid");
+      },
+      unhighlight: function (element) {
+        $(element).removeClass("is-invalid");
+      }
   });
 
 });
