@@ -13,103 +13,102 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/lib/bootstrap/dist/css/bootstrap-icons.css" rel="stylesheet">
-    <link href="~/css/templatemo-topic-listing.css" rel="stylesheet">
+        <link href="~/lib/bootstrap/dist/css/bootstrap-icons.css" rel="stylesheet">
+            <link href="~/css/templatemo-topic-listing.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 
-</head>
-<body id="top">
+            </head>
+            <body id="top">
 
-    <main>
+                <main>
 
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                    <i class="bi-back"></i>
-                    <span>Topic</span>
-                </a>
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container">
+                            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                                <i class="bi-back"></i>
+                                <span>Topic</span>
+                            </a>
 
-                <div class="d-lg-none ms-auto me-4">
-                    <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-                </div>
+                            <div class="d-lg-none ms-auto me-4">
+                                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                            </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
 
 
-            </div>
-        </nav>
+                        </div>
+                    </nav>
 
-        <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
-            <div class="container">
-                <div class="row">
+                    <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+                        <div class="container">
+                            <div class="row">
 
-                    @RenderBody()
+                                @RenderBody()
 
-                </div>
-            </div>
-        </section>
+                            </div>
+                        </div>
+                    </section>
 
-    </main>
+                </main>
 
-    <footer class="site-footer section-padding">
-        <div class="container">
-            <div class="row">
+                <footer class="site-footer section-padding">
+                    <div class="container">
+                        <div class="row">
 
-                <div class="col-lg-3 col-12 mb-4 pb-2">
-                    <a class="navbar-brand mb-2" href="index.html">
-                        <i class="bi-back"></i>
-                        <span>Topic</span>
-                    </a>
-                </div>
+                            <div class="col-lg-3 col-12 mb-4 pb-2">
+                                <a class="navbar-brand mb-2" href="index.html">
+                                    <i class="bi-back"></i>
+                                    <span>Topic</span>
+                                </a>
+                            </div>
 
-                <div class="col-lg-3 col-md-4 col-6">
-                    <h6 class="site-footer-title mb-3">Resources</h6>
+                            <div class="col-lg-3 col-md-4 col-6">
+                                <h6 class="site-footer-title mb-3">Resources</h6>
 
-                    <ul class="site-footer-links">
-                        <li class="site-footer-link-item">
-                            <a href="#" class="site-footer-link">FAQs</a>
-                        </li>
-                        <li class="site-footer-link-item">
-                            <a href="#" class="site-footer-link">Contact</a>
-                        </li>
-                    </ul>
-                </div>
+                                <ul class="site-footer-links">
+                                    <li class="site-footer-link-item">
+                                        <a href="#" class="site-footer-link">FAQs</a>
+                                    </li>
+                                    <li class="site-footer-link-item">
+                                        <a href="#" class="site-footer-link">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
 
-                <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
-                    <h6 class="site-footer-title mb-3">Information</h6>
+                            <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
+                                <h6 class="site-footer-title mb-3">Information</h6>
 
-                    <p class="text-white d-flex mb-1">
-                        <a href="tel: 305-240-9671" class="site-footer-link">
-                            305-240-9671
-                        </a>
-                    </p>
+                                <p class="text-white d-flex mb-1">
+                                    <a href="tel: 305-240-9671" class="site-footer-link">
+                                        305-240-9671
+                                    </a>
+                                </p>
 
-                    <p class="text-white d-flex">
-                        <a href="mailto:info@company.com" class="site-footer-link">
-                            info@company.com
-                        </a>
-                    </p>
-                </div>
+                                <p class="text-white d-flex">
+                                    <a href="mailto:info@company.com" class="site-footer-link">
+                                        info@company.com
+                                    </a>
+                                </p>
+                            </div>
 
-                <div class="col-lg-3 col-md-4 col-12 mt-lg-0 ms-auto">
-                    <p class="copyright-text">
-                        Copyright © @DateTime.Now.Year Topic Listing Center. All rights reserved.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
+                            <div class="col-lg-3 col-md-4 col-12 mt-lg-0 ms-auto">
+                                <p class="copyright-text">
+                                    Copyright © @DateTime.Now.Year Topic Listing Center. All rights reserved.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
 
-    <!-- JAVASCRIPT FILES -->
-  @*<script src="~/lib/jquery/dist/jquery.min.js"></script> *@
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.sticky.js"></script>
-    <script src="~/js/click-scroll.js"></script>
-    <script src="~/js/custom.js"></script>
+                <!-- JAVASCRIPT FILES -->
+                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="~/lib/jquery/dist/jquery.sticky.js"></script>
+                <script src="~/js/click-scroll.js"></script>
+                <script src="~/js/custom.js"></script>
 
-</body>
-</html>
+            </body>
+        </html>

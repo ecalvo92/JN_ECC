@@ -81,7 +81,7 @@ namespace JN_WEB.Controllers
                 return RedirectToAction("Login", "Home");
             }
             else if (result.StatusCode == HttpStatusCode.InternalServerError)
-            {     
+            {
                 throw new Exception();
             }
 

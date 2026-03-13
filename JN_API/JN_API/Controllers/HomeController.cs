@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace JN_API.Controllers
 {
@@ -70,7 +72,7 @@ namespace JN_API.Controllers
             //Se actualiza la contraseña
             var parametrosActualizacion = new DynamicParameters();
             parametrosActualizacion.Add("@Consecutivo", result.Consecutivo);
-            parametrosActualizacion.Add("@Contrasenna", nuevaContrasenna);
+            parametrosActualizacion.Add("@Contrasenna", Encrypt(nuevaContrasenna));
             var actualizacion = context.Execute("sp_ActualizarContrasenna", parametrosActualizacion);
 
             //Se notifica al usuario
@@ -116,7 +118,37 @@ namespace JN_API.Controllers
             };
 
             mensaje.To.Add(destinatario);
-            smtp.Send(mensaje);
+
+            if (!string.IsNullOrEmpty(contrasenna))
+            {
+                smtp.Send(mensaje);
+            }
+            
+        }
+
+        private string Encrypt(string texto)
+        {
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes("G7kP2mX9Qa4ZtL8wR1bY6HcD3sN5uFjV");
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using MemoryStream memoryStream = new();
+                using CryptoStream cryptoStream = new(memoryStream, encryptor, CryptoStreamMode.Write);
+                using (StreamWriter streamWriter = new(cryptoStream))
+                {
+                    streamWriter.Write(texto);
+                }
+
+                array = memoryStream.ToArray();
+            }
+
+            return Convert.ToBase64String(array);
         }
     }
 }

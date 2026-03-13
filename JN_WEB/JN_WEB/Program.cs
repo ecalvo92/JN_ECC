@@ -1,5 +1,4 @@
 using JN_WEB.Services;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
