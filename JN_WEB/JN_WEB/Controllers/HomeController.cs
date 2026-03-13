@@ -45,6 +45,7 @@ namespace JN_WEB.Controllers
             {
                 var objeto = result.Content.ReadFromJsonAsync<Usuario>().Result;
                 HttpContext.Session.SetString("NombreUsuario", objeto!.Nombre);
+                HttpContext.Session.SetInt32("Consecutivo", objeto!.Consecutivo);
 
                 return RedirectToAction("Index", "Home");
             }
