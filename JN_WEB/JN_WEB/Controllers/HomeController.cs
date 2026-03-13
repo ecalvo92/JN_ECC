@@ -1,3 +1,4 @@
+using JN_WEB.Filters;
 using JN_WEB.Models;
 using JN_WEB.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -116,6 +117,18 @@ namespace JN_WEB.Controllers
 
             ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
             return View();
+        }
+
+        #endregion
+
+        #region Cerrar Sesión
+
+        [SesionActiva]
+        [HttpGet]
+        public IActionResult CerrarSesion()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Home");
         }
 
         #endregion
