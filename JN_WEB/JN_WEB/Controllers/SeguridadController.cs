@@ -1,5 +1,6 @@
 ﻿using JN_WEB.Filters;
 using JN_WEB.Models;
+using JN_WEB.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http.Headers;
@@ -11,10 +12,12 @@ namespace JN_WEB.Controllers
     {
         private readonly IHttpClientFactory _http;
         private readonly IConfiguration _config;
-        public SeguridadController(IHttpClientFactory http, IConfiguration config)
+        private readonly IPasswordHelper _password;
+        public SeguridadController(IHttpClientFactory http, IConfiguration config, IPasswordHelper password)
         {
             _http = http;
             _config = config;
+            _password = password;
         }
 
         [HttpGet]
@@ -26,7 +29,9 @@ namespace JN_WEB.Controllers
         [HttpPost]
         public IActionResult CambiarAcceso(Seguridad model)
         {
-            model.Consecutivo = HttpContext.Session.GetInt32("Consecutivo") ?? 0;
+            model.NuevaContrasenna = _password.Encrypt(model.NuevaContrasenna);
+            model.ConfirmarContrasenna = _password.Encrypt(model.ConfirmarContrasenna);
+
             var token = HttpContext.Session.GetString("Token");
 
             using var client = _http.CreateClient();

@@ -26,10 +26,12 @@ namespace JN_API.Controllers
         [HttpPut("CambiarAcceso")]
         public IActionResult CambiarAcceso(SeguridadRequest model)
         {
+            var consecutivo = User.FindFirst("consecutivo")?.Value;
+
             using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
             var parametros = new DynamicParameters();
-            parametros.Add("@Consecutivo", model.Consecutivo);
-            parametros.Add("@Contrasenna", _password.Encrypt(model.NuevaContrasenna));
+            parametros.Add("@Consecutivo", consecutivo);
+            parametros.Add("@Contrasenna", model.NuevaContrasenna);
 
             var result = context.Execute("sp_ActualizarContrasenna", parametros);
 

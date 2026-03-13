@@ -14,6 +14,8 @@ namespace JN_API.Controllers
         {
             //Captura los detalles del error presentado
             var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var fecha = DateTime.Now;
+            var usuario = User.FindFirst("consecutivo")?.Value ?? "0";
 
             return StatusCode(500, "Ocurrió un error interno");
         }
