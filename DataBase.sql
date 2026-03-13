@@ -23,7 +23,7 @@ GO
 
 SET IDENTITY_INSERT [dbo].[tUsuarios] ON 
 GO
-INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado]) VALUES (1, N'207640592', N'MORALES RAMIREZ LUIS DANIEL', N'lmorales40592@ufide.ac.cr', N'sNT2+kOcfhKnj5sbd6P6MQ==', 1)
+INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado]) VALUES (1, N'207640592', N'MORALES RAMIREZ LUIS DANIEL', N'lmorales40592@ufide.ac.cr', N'DkF5eJ1UhQwmEXbYNJDqmQ==', 1)
 GO
 SET IDENTITY_INSERT [dbo].[tUsuarios] OFF
 GO
