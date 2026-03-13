@@ -2,6 +2,7 @@
 using JN_WEB.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace JN_WEB.Controllers
 {
@@ -26,7 +27,10 @@ namespace JN_WEB.Controllers
         public IActionResult CambiarAcceso(Seguridad model)
         {
             model.Consecutivo = HttpContext.Session.GetInt32("Consecutivo") ?? 0;
+            var token = HttpContext.Session.GetString("Token");
+
             using var client = _http.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var url = _config.GetValue<string>("Valores:UrlAPI") + "Seguridad/CambiarAcceso";
             var result = client.PutAsJsonAsync(url, model).Result;
 

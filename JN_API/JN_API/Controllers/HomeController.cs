@@ -1,15 +1,20 @@
 using Dapper;
 using JN_API.Models;
 using JN_API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace JN_API.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class HomeController : ControllerBase
@@ -53,6 +58,7 @@ namespace JN_API.Controllers
             if (result == null)
                 return NotFound("Su información no se autenticó correctamente");
 
+            result.Token = GenerarToken(result.Consecutivo);
             return Ok(result);
         }
 
@@ -80,7 +86,7 @@ namespace JN_API.Controllers
 
             //Se notifica al usuario
             var contenido = ObtenerPlantillaCorreo(result.Nombre, nuevaContrasenna);
-            EnviarCorreo(result.CorreoElectronico, "Recuperación de Acceso", contenido);
+            _password.EnviarCorreo(result.CorreoElectronico, "Recuperación de Acceso", contenido);
             return Ok(result);
         }
 
@@ -99,34 +105,27 @@ namespace JN_API.Controllers
                 .Replace("{{Contrasenna}}", contrasenna);
         }
 
-        private void EnviarCorreo(string destinatario, string asunto, string contenido)
+        private string GenerarToken(int consecutivo)
         {
-            var host = _config.GetValue<string>("Smtp:Host");
-            var port = _config.GetValue<int>("Smtp:Port");
-            var usuario = _config.GetValue<string>("Smtp:Usuario");
-            var contrasenna = _config.GetValue<string>("Smtp:Contrasenna");
+            var key = Encoding.UTF8.GetBytes(_config.GetValue<string>("Jwt:Key")!);
 
-            using var smtp = new SmtpClient(host, port)
+            var claims = new[]
             {
-                Credentials = new NetworkCredential(usuario, contrasenna),
-                EnableSsl = true
+                new Claim("consecutivo", consecutivo.ToString()),
             };
 
-            var mensaje = new MailMessage
-            {
-                From = new MailAddress(usuario!),
-                Subject = asunto,
-                Body = contenido,
-                IsBodyHtml = true
-            };
+            var signingCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256
+            );
 
-            mensaje.To.Add(destinatario);
+            var tokenDescriptor = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(10),
+                signingCredentials: signingCredentials
+            );
 
-            if (!string.IsNullOrEmpty(contrasenna))
-            {
-                smtp.Send(mensaje);
-            }
-            
+            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
 
     }

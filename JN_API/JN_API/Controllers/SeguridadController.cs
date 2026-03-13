@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using JN_API.Models;
 using JN_API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -9,6 +10,7 @@ using System.Text;
 
 namespace JN_API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SeguridadController : ControllerBase
