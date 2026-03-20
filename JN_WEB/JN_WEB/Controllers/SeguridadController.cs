@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Reflection;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JN_WEB.Controllers
 {
@@ -14,11 +15,13 @@ namespace JN_WEB.Controllers
         private readonly IHttpClientFactory _http;
         private readonly IConfiguration _config;
         private readonly IPasswordHelper _password;
-        public SeguridadController(IHttpClientFactory http, IConfiguration config, IPasswordHelper password)
+        private readonly IWebHostEnvironment _env;
+        public SeguridadController(IHttpClientFactory http, IConfiguration config, IPasswordHelper password, IWebHostEnvironment env)
         {
             _http = http;
             _config = config;
             _password = password;
+            _env = env;
         }
 
         #region CambiarAcceso
@@ -84,9 +87,27 @@ namespace JN_WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult CambiarPerfil(Usuario model, IFormFile ImagenPerfil)
+        public IActionResult CambiarPerfil(Usuario model, IFormFile? ImagenPerfil)
         {
             var token = HttpContext.Session.GetString("Token");
+            var consecutivo = HttpContext.Session.GetInt32("Consecutivo");
+            model.ImagenPerfil = string.Empty;
+
+            if (ImagenPerfil != null && ImagenPerfil.Length > 0)
+            {
+                var carpeta = Path.Combine(_env.WebRootPath, "uploads");
+                
+                if(!Directory.Exists(carpeta))
+                    Directory.CreateDirectory(carpeta);
+
+                var nombreArchivo = $"{consecutivo}.png";
+                var rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+
+                using var stream = new FileStream(rutaCompleta, FileMode.Create);
+                ImagenPerfil.CopyTo(stream);
+
+                model.ImagenPerfil = $"/uploads/{nombreArchivo}";
+            }
 
             using var client = _http.CreateClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

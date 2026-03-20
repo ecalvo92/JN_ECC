@@ -56,7 +56,28 @@ namespace JN_API.Controllers
                 return NotFound("Su información no se validó correctamente");
 
             return Ok(result);
-        }        
+        }
 
+        [HttpPut("CambiarPerfil")]
+        public IActionResult CambiarPerfil(PerfilRequest model)
+        {
+            var consecutivo = User.FindFirst("consecutivo")?.Value;
+
+            using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            var parametros = new DynamicParameters();
+            parametros.Add("@Consecutivo", consecutivo);
+            parametros.Add("@Identificacion", model.Identificacion);
+            parametros.Add("@Nombre", model.Nombre);
+            parametros.Add("@CorreoElectronico", model.CorreoElectronico);
+            parametros.Add("@ImagenPerfil", model.ImagenPerfil);
+
+            var result = context.Execute("sp_ActualizarPerfil", parametros);
+
+            if (result <= 0)
+                return BadRequest("Su información no se actualizó correctamente");
+
+            return Ok("Su información se actualizó correctamente");
+        }
+        
     }
 }
