@@ -4,6 +4,7 @@ using JN_WEB.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Reflection;
 
 namespace JN_WEB.Controllers
 {
@@ -61,6 +62,24 @@ namespace JN_WEB.Controllers
         [HttpGet]
         public IActionResult CambiarPerfil()
         {
+            var token = HttpContext.Session.GetString("Token");
+
+            using var client = _http.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var url = _config.GetValue<string>("Valores:UrlAPI") + "Seguridad/ConsultarUsuario";
+            var result = client.GetAsync(url).Result;
+
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                var objeto = result.Content.ReadFromJsonAsync<Usuario>().Result;
+                return View(objeto);
+            }
+            else if (result.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                throw new Exception();
+            }
+
+            ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
             return View();
         }
 

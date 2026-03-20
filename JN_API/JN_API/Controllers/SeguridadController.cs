@@ -41,5 +41,22 @@ namespace JN_API.Controllers
             return Ok("Su información se actualizó correctamente");
         }
 
+        [HttpGet("ConsultarUsuario")]
+        public IActionResult ConsultarUsuario()
+        {
+            var consecutivo = User.FindFirst("consecutivo")?.Value;
+
+            using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            var parametros = new DynamicParameters();
+            parametros.Add("@Consecutivo", consecutivo);
+
+            var result = context.QueryFirstOrDefault<UsuarioResponse>("sp_ConsultarUsuario", parametros);
+
+            if (result == null)
+                return NotFound("Su información no se validó correctamente");
+
+            return Ok(result);
+        }        
+
     }
 }
