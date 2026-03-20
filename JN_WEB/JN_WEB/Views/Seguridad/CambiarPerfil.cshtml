@@ -1,0 +1,50 @@
+﻿@model Usuario
+
+<div class="col-lg-5 mx-auto">
+
+    <h3 class="mb-4 pb-2 text-center">Cambiar Perfil</h3>
+
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-danger text-center text-black">
+            @ViewBag.Mensaje
+        </div>
+    }
+
+    <form asp-action="CambiarPerfil" asp-controller="Seguridad" id="formCambiarPerfil" class="custom-form contact-form" role="form" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <div class="form-floating">
+                    <input type="text" asp-for="Identificacion" class="form-control" placeholder="Name" required=""
+                           onkeyup="ConsultarNombre();">
+                        <label for="floatingInput">Identificación</label>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-12">
+                    <div class="form-floating">
+                        <input type="text" asp-for="Nombre" class="form-control ReadOnly" readonly="readonly" placeholder="Name" required="">
+                            <label for="floatingInput">Nombre</label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-12">
+                        <div class="form-floating">
+                            <input type="text" asp-for="CorreoElectronico" class="form-control" placeholder="Name" required="">
+                                <label for="floatingInput">Correo Electrónico</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-12">
+                                <input type="file" asp-for="ImagenPerfil" class="form-control">
+                            </div>
+
+                        <div class="col-lg-6 col-12">
+                            <button type="submit" class="form-control">Procesar</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <script src="~/js/cambiarPerfil.js" asp-append-version="true"></script>
