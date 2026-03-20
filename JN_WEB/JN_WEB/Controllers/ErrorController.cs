@@ -8,7 +8,7 @@ namespace JN_WEB.Controllers
         public IActionResult CapturarError()
         {
             //Captura los detalles del error presentado
-            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var exception = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
             return View("Error");
         }

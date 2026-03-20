@@ -84,18 +84,19 @@ namespace JN_WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult CambiarPerfil(Usuario model, FormFile ImagenPerfil)
+        public IActionResult CambiarPerfil(Usuario model, IFormFile ImagenPerfil)
         {
             var token = HttpContext.Session.GetString("Token");
 
             using var client = _http.CreateClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var url = _config.GetValue<string>("Valores:UrlAPI") + "Seguridad/CambiarAcceso";
+            var url = _config.GetValue<string>("Valores:UrlAPI") + "Seguridad/CambiarPerfil";
             var result = client.PutAsJsonAsync(url, model).Result;
 
             if (result.StatusCode == HttpStatusCode.OK)
             {
-                return RedirectToAction("CerrarSesion", "Home");
+                ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
+                return View(model);
             }
             else if (result.StatusCode == HttpStatusCode.InternalServerError)
             {
