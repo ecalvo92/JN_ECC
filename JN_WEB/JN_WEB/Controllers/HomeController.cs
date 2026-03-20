@@ -47,6 +47,7 @@ namespace JN_WEB.Controllers
                 HttpContext.Session.SetString("NombreUsuario", objeto!.Nombre);
                 HttpContext.Session.SetInt32("Consecutivo", objeto!.Consecutivo);
                 HttpContext.Session.SetString("Token", objeto!.Token);
+                HttpContext.Session.SetString("ImagenPerfil", objeto!.ImagenPerfil); 
 
                 return RedirectToAction("Index", "Home");
             }

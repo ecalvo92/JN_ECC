@@ -1,5 +1,6 @@
 ﻿@{
     var nombreUsuario = Context.Session.GetString("NombreUsuario") ?? string.Empty;
+    var imagenPerfil = string.IsNullOrEmpty(Context.Session.GetString("ImagenPerfil")) ? "/uploads/default.png" : Context.Session.GetString("ImagenPerfil");
 }
 
 <!doctype html>
@@ -80,7 +81,10 @@
                     @* Resolución Grande *@
                     <div class="d-none d-lg-block text-white">
                         @nombreUsuario
-                        <a asp-controller="Home" asp-action="Login" class="navbar-icon bi-person smoothscroll ms-3"></a>
+                        
+                        <a asp-controller="Home" asp-action="Login" class="smoothscroll ms-3">
+                          <img src="@imagenPerfil" width="50" height="50"/>
+                        </a>
                     </div>
 
                 </div>
