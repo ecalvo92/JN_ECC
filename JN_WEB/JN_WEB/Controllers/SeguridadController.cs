@@ -117,7 +117,9 @@ namespace JN_WEB.Controllers
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 HttpContext.Session.SetString("NombreUsuario", model.Nombre);
-                HttpContext.Session.SetString("ImagenPerfil", model.ImagenPerfil);
+
+                if (ImagenPerfil != null && ImagenPerfil.Length > 0)
+                    HttpContext.Session.SetString("ImagenPerfil", model.ImagenPerfil);
 
                 ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
                 return View(model);

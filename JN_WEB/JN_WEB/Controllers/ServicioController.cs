@@ -7,7 +7,7 @@ namespace JN_WEB.Controllers
     public class ServicioController : Controller
     {
         [HttpGet]
-        public IActionResult Consulta()
+        public IActionResult ConsultarServicios()
         {
             return View();
         }

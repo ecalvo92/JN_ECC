@@ -48,15 +48,15 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-lg-5 me-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_1">Inicio</a>
+                            <a class="nav-link click-scroll" asp-controller="Home" asp-action="Index" asp-fragment="section_1">Inicio</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_2">Servicios</a>
+                            <a class="nav-link click-scroll" asp-controller="Home" asp-action="Index" asp-fragment="section_2">Servicios</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_3">Metodología</a>
+                            <a class="nav-link click-scroll" asp-controller="Home" asp-action="Index" asp-fragment="section_3">Metodología</a>
                         </li>
 
                         @if (!string.IsNullOrEmpty(nombreUsuario))
@@ -67,7 +67,7 @@
                                 <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
                                     <li><a class="dropdown-item" asp-action="CambiarPerfil" asp-controller="Seguridad">Perfil</a></li>
                                     <li><a class="dropdown-item" asp-action="CambiarAcceso" asp-controller="Seguridad">Seguridad</a></li>
-                                    <li><a class="dropdown-item" href="topics-listing.html">Servicios</a></li>
+                                    <li><a class="dropdown-item" asp-action="ConsultarServicios" asp-controller="Servicio">Servicios</a></li>
                                 </ul>
                             </li>
 
