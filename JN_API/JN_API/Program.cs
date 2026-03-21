@@ -27,12 +27,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+app.UseExceptionHandler("/api/Error/CapturarError");
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
-app.UseExceptionHandler("/api/Error/CapturarError");
 
 app.UseHttpsRedirection();
 

@@ -9,6 +9,7 @@ using System.Reflection;
 
 namespace JN_API.Controllers
 {
+	[ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class ErrorController : ControllerBase
@@ -20,7 +21,7 @@ namespace JN_API.Controllers
             _config = config;
         }
 
-        [HttpPost("CapturarError")]
+        [Route("CapturarError")]
         public IActionResult CapturarError()
         {
             //Captura los detalles del error presentado
