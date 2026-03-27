@@ -90,6 +90,19 @@ namespace JN_API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("ConsultarTiendas")]
+        public IActionResult ConsultarTiendas()
+        {
+            using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            var parametros = new DynamicParameters();
+            var result = context.Query<TiendaResponse>("sp_ConsultarTiendas", parametros);
+
+            if (!result.Any())
+                return NotFound("No hay tiendas registradas en este momento");
+
+            return Ok(result);
+        }
+
         private static string GenerarContrasenna()
         {
             const string letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

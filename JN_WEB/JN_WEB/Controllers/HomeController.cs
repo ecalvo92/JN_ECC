@@ -21,7 +21,21 @@ namespace JN_WEB.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            using var client = _http.CreateClient();
+            var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/ConsultarTiendas";
+            var result = client.GetAsync(url).Result;
+
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                var lista = result.Content.ReadFromJsonAsync<List<Tienda>>().Result;
+                return View(lista);
+            }
+            else if (result.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                throw new Exception();
+            }
+
+            return View(new List<Tienda>());
         }
 
         #region Inicio de sesión
