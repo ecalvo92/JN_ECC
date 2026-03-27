@@ -37,8 +37,22 @@ CREATE TABLE [dbo].[tServicio](
 	[Precio] [decimal](10, 2) NOT NULL,
 	[Estado] [bit] NOT NULL,
 	[Video] [varchar](200) NOT NULL,
-	[ConsecutivoUsuario] [int] NOT NULL,
+	[ConsecutivoTienda] [int] NOT NULL,
  CONSTRAINT [PK_tServicio] PRIMARY KEY CLUSTERED 
+(
+	[Consecutivo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[tTienda](
+	[Consecutivo] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](50) NOT NULL,
+	[Contacto] [varchar](50) NOT NULL,
+	[Descripcion] [varchar](500) NOT NULL,
+	[Ubicacion] [varchar](50) NOT NULL,
+	[ConsecutivoUsuario] [int] NOT NULL,
+ CONSTRAINT [PK_tTienda] PRIMARY KEY CLUSTERED 
 (
 	[Consecutivo] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
@@ -70,11 +84,20 @@ GO
 SET IDENTITY_INSERT [dbo].[tRol] OFF
 GO
 
+SET IDENTITY_INSERT [dbo].[tTienda] ON 
+GO
+INSERT [dbo].[tTienda] ([Consecutivo], [Nombre], [Contacto], [Descripcion], [Ubicacion], [ConsecutivoUsuario]) VALUES (1, N'Pizza Morales', N'22456789', N'La Pizza Morales combina masa artesanal, salsa de tomate casera y una generosa mezcla de quesos fundidos, acompañada de pepperoni, jamón y verduras frescas. Un equilibrio perfecto entre sabor clásico y frescura que conquista a cada bocado', N'Cerca de la U Fidélitas', 1)
+GO
+INSERT [dbo].[tTienda] ([Consecutivo], [Nombre], [Contacto], [Descripcion], [Ubicacion], [ConsecutivoUsuario]) VALUES (2, N'Pizza Morales Competencia', N'22456789', N'La Pizza Morales combina masa artesanal, salsa de tomate casera y una generosa mezcla de quesos fundidos, acompañada de pepperoni, jamón y verduras frescas. Un equilibrio perfecto entre sabor clásico y frescura que conquista a cada bocado', N'Cerca de la U Fidélitas', 2)
+GO
+SET IDENTITY_INSERT [dbo].[tTienda] OFF
+GO
+
 SET IDENTITY_INSERT [dbo].[tUsuarios] ON 
 GO
-INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado], [ImagenPerfil], [ConsecutivoRol]) VALUES (1, N'207640592', N'MORALES RAMIREZ LUIS DANIEL', N'lmorales40592@ufide.ac.cr', N'DkF5eJ1UhQwmEXbYNJDqmQ==', 1, N'/uploads/1.png', 2)
+INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado], [ImagenPerfil], [ConsecutivoRol]) VALUES (1, N'207640592', N'MORALES RAMIREZ LUIS DANIEL', N'lmorales40592@ufide.ac.cr', N'DkF5eJ1UhQwmEXbYNJDqmQ==', 1, N'/uploads/1.png', 1)
 GO
-INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado], [ImagenPerfil], [ConsecutivoRol]) VALUES (2, N'304590415', N'CALVO CASTILLO EDUARDO JOSE', N'ecalvo90415@ufide.ac.cr', N'DkF5eJ1UhQwmEXbYNJDqmQ==', 1, N'/uploads/2.png', 2)
+INSERT [dbo].[tUsuarios] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado], [ImagenPerfil], [ConsecutivoRol]) VALUES (2, N'304590415', N'CALVO CASTILLO EDUARDO JOSE', N'ecalvo90415@ufide.ac.cr', N'DkF5eJ1UhQwmEXbYNJDqmQ==', 1, N'/uploads/2.png', 1)
 GO
 SET IDENTITY_INSERT [dbo].[tUsuarios] OFF
 GO
@@ -91,10 +114,16 @@ ALTER TABLE [dbo].[tUsuarios] ADD  CONSTRAINT [UK_Identificacion] UNIQUE NONCLUS
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[tServicio]  WITH CHECK ADD  CONSTRAINT [FK_tServicio_tUsuarios] FOREIGN KEY([ConsecutivoUsuario])
+ALTER TABLE [dbo].[tServicio]  WITH CHECK ADD  CONSTRAINT [FK_tServicio_tTienda] FOREIGN KEY([ConsecutivoTienda])
+REFERENCES [dbo].[tTienda] ([Consecutivo])
+GO
+ALTER TABLE [dbo].[tServicio] CHECK CONSTRAINT [FK_tServicio_tTienda]
+GO
+
+ALTER TABLE [dbo].[tTienda]  WITH CHECK ADD  CONSTRAINT [FK_tTienda_tUsuarios] FOREIGN KEY([ConsecutivoUsuario])
 REFERENCES [dbo].[tUsuarios] ([Consecutivo])
 GO
-ALTER TABLE [dbo].[tServicio] CHECK CONSTRAINT [FK_tServicio_tUsuarios]
+ALTER TABLE [dbo].[tTienda] CHECK CONSTRAINT [FK_tTienda_tUsuarios]
 GO
 
 ALTER TABLE [dbo].[tUsuarios]  WITH CHECK ADD  CONSTRAINT [FK_tUsuarios_tRol] FOREIGN KEY([ConsecutivoRol])
@@ -135,6 +164,77 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE [dbo].[sp_ActualizarTienda]
+    @ConsecutivoUsuario  int,
+    @Nombre  varchar(50),
+    @Contacto  varchar(50),
+    @Descripcion  varchar(500),
+    @Ubicacion  varchar(50)
+AS
+BEGIN
+
+    DECLARE @ConsecutivoTienda INT
+
+    SELECT  @ConsecutivoTienda = Consecutivo 
+    FROM    tTienda 
+    WHERE   ConsecutivoUsuario = @ConsecutivoUsuario
+
+    IF (@ConsecutivoTienda IS NOT NULL AND @ConsecutivoTienda != 0)
+    BEGIN
+
+        UPDATE  dbo.tTienda
+        SET     Nombre = @Nombre,
+                Contacto = @Contacto,
+                Descripcion = @Descripcion,
+                Ubicacion = @Ubicacion
+        WHERE   Consecutivo = @ConsecutivoTienda
+
+    END
+    ELSE
+    BEGIN
+
+        INSERT INTO tTienda(Nombre,Contacto,Descripcion,Ubicacion,ConsecutivoUsuario)
+        VALUES(@Nombre,@Contacto,@Descripcion,@Ubicacion,@ConsecutivoUsuario)
+
+    END
+
+END
+GO
+
+CREATE PROCEDURE [dbo].[sp_ConsultarTienda]
+	@ConsecutivoUsuario  int
+AS
+BEGIN
+	
+    SELECT  Consecutivo,
+            Nombre,
+            Contacto,
+            Descripcion,
+            Ubicacion
+    FROM    dbo.tTienda
+    WHERE   ConsecutivoUsuario = @ConsecutivoUsuario
+
+END
+GO
+
+CREATE PROCEDURE [dbo].[sp_ConsultarTiendas]
+
+AS
+BEGIN
+	
+    SELECT  T.Consecutivo,
+            T.Nombre,
+            Contacto,
+            Descripcion,
+            Ubicacion,
+            U.ImagenPerfil
+    FROM    tTienda T
+    INNER JOIN tUsuarios U ON T.ConsecutivoUsuario = U.Consecutivo
+        AND U.ConsecutivoRol = 1
+
+END
+GO
+
 CREATE PROCEDURE [dbo].[sp_ConsultarUsuario]
 	@Consecutivo  int
 AS
@@ -158,13 +258,16 @@ CREATE PROCEDURE [dbo].[sp_IniciarSesion]
 AS
 BEGIN
 	
-    SELECT  Consecutivo,
+    SELECT  U.Consecutivo,
             Identificacion,
             Nombre,
             CorreoElectronico,
             Estado,
-            ImagenPerfil
-    FROM    dbo.tUsuarios
+            ImagenPerfil,
+            U.ConsecutivoRol,
+            R.NombreRol
+    FROM    tUsuarios U
+    INNER JOIN tRol R ON U.ConsecutivoRol = R.Consecutivo 
     WHERE   CorreoElectronico = @CorreoElectronico
         AND Contrasenna = @Contrasenna
         AND Estado = 1
