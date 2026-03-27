@@ -1,0 +1,52 @@
+﻿@model Tienda
+
+<div class="col-lg-5 mx-auto">
+
+    <h3 class="mb-4 pb-2 text-center">Cambiar Tienda</h3>
+
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-danger text-center text-black">
+            @ViewBag.Mensaje
+        </div>
+    }
+
+    <form asp-action="CambiarTienda" asp-controller="Servicio" id="formCambiarTienda" class="custom-form contact-form" role="form">
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <div class="form-floating">
+                    <input type="text" asp-for="Nombre" class="form-control" placeholder="Name" required="">
+                        <label for="floatingInput">Nombre</label>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-12">
+                    <div class="form-floating">
+                        <textarea asp-for="Descripcion" class="form-control" placeholder="Name" required="" rows="3" ></textarea>
+                            <label for="floatingInput">Descripción</label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-6">
+                        <div class="form-floating">
+                            <input type="text" asp-for="Contacto" class="form-control" placeholder="Name" required="">
+                                <label for="floatingInput">Contacto</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-6">
+                            <div class="form-floating">
+                                <input type="text" asp-for="Ubicacion" class="form-control" placeholder="Name" required="">
+                                    <label for="floatingInput">Ubicación</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12">
+                                <button type="submit" class="form-control">Procesar</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+                <script src="~/js/cambiarTienda.js" asp-append-version="true"></script>
