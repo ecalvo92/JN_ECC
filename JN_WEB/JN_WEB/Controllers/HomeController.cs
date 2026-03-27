@@ -29,6 +29,7 @@ namespace JN_WEB.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            HttpContext.Session.Clear();
             return View();
         }
 
@@ -47,7 +48,9 @@ namespace JN_WEB.Controllers
                 HttpContext.Session.SetString("NombreUsuario", objeto!.Nombre);
                 HttpContext.Session.SetInt32("Consecutivo", objeto!.Consecutivo);
                 HttpContext.Session.SetString("Token", objeto!.Token);
-                HttpContext.Session.SetString("ImagenPerfil", objeto!.ImagenPerfil); 
+                HttpContext.Session.SetString("ImagenPerfil", objeto!.ImagenPerfil);
+                HttpContext.Session.SetInt32("ConsecutivoRol", objeto!.ConsecutivoRol);
+                HttpContext.Session.SetString("NombreRol", objeto!.NombreRol);
 
                 return RedirectToAction("Index", "Home");
             }

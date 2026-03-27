@@ -1156,3 +1156,7 @@ blockquote {
 .ReadOnly {
     cursor:not-allowed;
 }
+
+.container {
+    max-width:90%!important;
+}

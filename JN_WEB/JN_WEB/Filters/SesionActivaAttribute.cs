@@ -18,4 +18,21 @@ namespace JN_WEB.Filters
             base.OnActionExecuting(context);
         }
     }
+
+    public class PerfilAdminAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var rol = context.HttpContext.Session.GetInt32("ConsecutivoRol");
+
+            if (rol != 1)
+            {
+                context.Result = new RedirectToActionResult("Index", "Home", null);
+                return;
+            }
+
+            base.OnActionExecuting(context);
+        }
+    }
+
 }

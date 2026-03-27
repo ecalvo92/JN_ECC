@@ -1,5 +1,7 @@
 ﻿@{
     var nombreUsuario = Context.Session.GetString("NombreUsuario") ?? string.Empty;
+    var nombreRol = Context.Session.GetString("NombreRol") ?? string.Empty;
+    var consecutivoRol = Context.Session.GetInt32("ConsecutivoRol") ?? 0;
     var imagenPerfil = string.IsNullOrEmpty(Context.Session.GetString("ImagenPerfil")) ? "/uploads/default.png" : Context.Session.GetString("ImagenPerfil");
 }
 
@@ -67,7 +69,12 @@
                                 <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
                                     <li><a class="dropdown-item" asp-action="CambiarPerfil" asp-controller="Seguridad">Perfil</a></li>
                                     <li><a class="dropdown-item" asp-action="CambiarAcceso" asp-controller="Seguridad">Seguridad</a></li>
-                                    <li><a class="dropdown-item" asp-action="ConsultarServicios" asp-controller="Servicio">Servicios</a></li>
+
+                                    @if(consecutivoRol == 1)
+                                    {
+                                        <li><a class="dropdown-item" asp-action="CambiarTienda" asp-controller="Servicio">Tienda</a></li>
+                                        <li><a class="dropdown-item" asp-action="ConsultarServicios" asp-controller="Servicio">Servicios</a></li>
+                                    }
                                 </ul>
                             </li>
 
@@ -79,11 +86,15 @@
                     </ul>
 
                     @* Resolución Grande *@
-                    <div class="d-none d-lg-block text-white">
-                        @nombreUsuario
-                        
-                        <a asp-controller="Home" asp-action="Login" class="smoothscroll ms-3">
-                          <img src="@imagenPerfil" width="50" height="50"/>
+                    <div class="d-none d-lg-flex align-items-center gap-3">
+                        <div class="d-flex flex-column text-end text-white lh-sm">
+                            <span class="fw-semibold">@nombreUsuario</span>
+                            <small class="text-white-50">@nombreRol</small>
+                        </div>
+                        <a asp-controller="Home" asp-action="Login" class="smoothscroll">
+                            <img src="@imagenPerfil" width="45" height="45"
+                                 class="rounded-circle border border-2 border-white"
+                                 style="object-fit:cover;" />
                         </a>
                     </div>
 

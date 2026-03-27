@@ -58,7 +58,7 @@ namespace JN_API.Controllers
             if (result == null)
                 return NotFound("Su información no se autenticó correctamente");
 
-            result.Token = GenerarToken(result.Consecutivo);
+            result.Token = GenerarToken(result.Consecutivo, result.ConsecutivoRol);
             return Ok(result);
         }
 
@@ -105,13 +105,14 @@ namespace JN_API.Controllers
                 .Replace("{{Contrasenna}}", contrasenna);
         }
 
-        private string GenerarToken(int consecutivo)
+        private string GenerarToken(int consecutivo, int consecutivoRol)
         {
             var key = Encoding.UTF8.GetBytes(_config.GetValue<string>("Jwt:Key")!);
 
             var claims = new[]
             {
                 new Claim("consecutivo", consecutivo.ToString()),
+                new Claim("consecutivoRol", consecutivoRol.ToString()),
             };
 
             var signingCredentials = new SigningCredentials(
